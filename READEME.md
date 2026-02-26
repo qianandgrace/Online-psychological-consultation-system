@@ -1,9 +1,17 @@
 # 环境搭建
-## 安装torch 速度过慢可以先下载到本地
-pip install torch==2.6.0 torchvision==0.21.0 torchaudio==2.6.0 --index-url https://download.pytorch.org/whl/cu126
+pip install bitsandbytes>=0.39.0
 ## 安装xtuner
 https://github.com/InternLM/xtuner.git
 切换到0.2.3tag
 
-#数据准备 转换数据，切分训练集测试集
+cd xtuner
+pip install -e '.[deepspeed]'
+
+降级transformers到4.56版本
+
+# 数据准备 转换数据，切分训练集测试集
 python .\data_prepare\data_spilit.py
+
+# 训练命令
+nohup xtuner train ~/projects/xtuner_finetune/qwen1_5_1_8b_chat_qlora_alpaca_e3.py \
+> ~/projects/xtuner_finetune/xtuner_train.log 2>&1 &
